@@ -8,115 +8,199 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
 
-body {
-  margin: 0;
-  background: #0b0f14;
-  color: #e6e6e6;
-  font-family: 'Audiowide', sans-serif;
-  overflow-x: hidden;
+:root{
+  --accent:#00ffd5;
 }
 
-header {
-  padding: 20px;
-  font-size: 32px;
-  text-transform: uppercase;
-  color: #00ffd5;
-  text-align: center;
-  position: relative;
+body{
+  margin:0;
+  background:#0b0f14;
+  color:#e6e6e6;
+  font-family:'Audiowide',sans-serif;
+  overflow-x:hidden;
 }
-header::after {
+
+/* ================= HEADER ================= */
+header{
+  padding:20px;
+  font-size:32px;
+  text-transform:uppercase;
+  color:var(--accent);
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+header::after{
   content:'';
   position:absolute;
   inset:0;
   background:linear-gradient(90deg,transparent,rgba(0,255,213,.5),transparent);
-  animation:slideGlitch 2s infinite;
+  animation:scan 2.5s linear infinite;
 }
-@keyframes slideGlitch {
+@keyframes scan{
   0%{transform:translateX(-100%)}
   50%{transform:translateX(100%)}
   100%{transform:translateX(-100%)}
 }
 
-.grid {
+/* ================= GRID ================= */
+.grid{
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
   gap:12px;
   padding:20px;
 }
 
-.image-container {
+.image-container{
   position:relative;
   cursor:pointer;
+  perspective:1000px;
 }
-.image-container img {
+.image-container img{
   width:100%;
   height:150px;
   object-fit:cover;
   border-radius:12px;
-  transition:.4s;
+  transition:transform .4s ease, filter .3s ease;
+  will-change:transform;
 }
-.image-container:hover img {
-  transform:scale(1.05);
-  filter:brightness(1.2);
+.image-container:hover img{
+  transform:scale(1.05) rotate(.8deg);
+  filter:brightness(1.15) contrast(1.2);
 }
 
-.number-badge {
+.number-badge{
   position:absolute;
   top:6px;
   left:6px;
-  background:#00ffd5;
+  background:rgba(0,255,213,.85);
   color:#000;
+  font-weight:700;
   padding:2px 6px;
   border-radius:6px;
   font-size:12px;
 }
 
-.lightbox {
+/* ================= RANDOM GLITCH ================= */
+@keyframes glitch{
+  0%{transform:none}
+  30%{transform:translate(-1px,1px)}
+  60%{transform:translate(1px,-1px)}
+  100%{transform:none}
+}
+
+/* ================= LIGHTBOX ================= */
+.lightbox{
   position:fixed;
   inset:0;
   background:rgba(5,8,12,.95);
   display:none;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
   z-index:999;
 }
-.lightbox.active {display:flex;}
+.lightbox.active{display:flex;}
 
-.lightbox-main-container {
+.lightbox-main-container{
   position:relative;
   max-width:90vw;
-  max-height:80vh;
+  max-height:60vh;
 }
-.lightbox-main {
+
+.lightbox-main{
   max-width:100%;
   max-height:100%;
   border-radius:16px;
+  box-shadow:0 30px 90px rgba(0,0,0,.8);
+  transition:opacity .3s ease;
 }
 
-.nav-button {
+/* ================= NAV ================= */
+.nav-button{
   position:absolute;
   top:50%;
   transform:translateY(-50%);
   font-size:36px;
-  color:#00ffd5;
+  color:var(--accent);
   cursor:pointer;
   user-select:none;
 }
-.nav-left {left:-50px;}
-.nav-right {right:-50px;}
+.nav-left{left:-50px}
+.nav-right{right:-50px}
 
-.close {
+.close{
   position:absolute;
-  top:20px;
-  right:25px;
+  top:16px;
+  right:20px;
   font-size:28px;
   cursor:pointer;
-  color:#00ffd5;
+  color:var(--accent);
 }
 
+/* ================= PREVIEWS ================= */
+.lightbox-previews{
+  display:flex;
+  gap:8px;
+  max-width:420px;
+  margin-top:15px;
+  overflow-x:auto;
+  scroll-behavior:smooth;
+  scrollbar-width:none;
+}
+.lightbox-previews::-webkit-scrollbar{display:none;}
+
+.lightbox-previews img{
+  width:70px;
+  height:50px;
+  object-fit:cover;
+  border-radius:8px;
+  opacity:.6;
+  border:2px solid transparent;
+  transition:.3s;
+  cursor:pointer;
+}
+.lightbox-previews img.active-preview{
+  transform:scale(1.15);
+  opacity:1;
+  border-color:var(--accent);
+}
+
+/* ================= GLOW INDICATOR ================= */
+.preview-indicator{
+  width:420px;
+  height:4px;
+  margin-top:8px;
+  background:rgba(255,255,255,.08);
+  border-radius:10px;
+  overflow:hidden;
+  position:relative;
+}
+
+.preview-indicator span{
+  position:absolute;
+  top:0;
+  height:100%;
+  width:60px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  box-shadow:0 0 12px rgba(0,255,213,.9);
+  border-radius:10px;
+  transition:left .35s ease;
+  animation:pulse 1.8s infinite ease-in-out;
+}
+
+@keyframes pulse{
+  0%{opacity:.6}
+  50%{opacity:1}
+  100%{opacity:.6}
+}
+
+/* ================= MOBILE ================= */
 @media(max-width:600px){
   .nav-left{left:10px}
   .nav-right{right:10px}
+  .lightbox-previews img{width:60px;height:45px}
+  .preview-indicator{width:300px}
 }
 </style>
 </head>
@@ -124,7 +208,7 @@ header::after {
 <body>
 
 <header>
-  PUBG Blackbudget Research Nodes -
+  PUBG Blackbudget Research Nodes –
   <span id="imageCount"></span>
 </header>
 
@@ -132,10 +216,16 @@ header::after {
 
 <div class="lightbox" id="lightbox">
   <span class="close" onclick="closeLightbox()">✕</span>
+
   <div class="lightbox-main-container">
     <span class="nav-button nav-left" onclick="prevImage()">❮</span>
     <img id="lightboxMain" class="lightbox-main">
     <span class="nav-button nav-right" onclick="nextImage()">❯</span>
+  </div>
+
+  <div class="lightbox-previews" id="lightboxPreviews"></div>
+  <div class="preview-indicator">
+    <span id="previewGlow"></span>
   </div>
 </div>
 
@@ -144,45 +234,118 @@ header::after {
 const gallery = document.getElementById('gallery');
 const lightbox = document.getElementById('lightbox');
 const lightboxMain = document.getElementById('lightboxMain');
+const lightboxPreviews = document.getElementById('lightboxPreviews');
 const imageCount = document.getElementById('imageCount');
+const previewGlow = document.getElementById('previewGlow');
 
 let currentIndex = 0;
 
+/* BUILD GALLERY + RANDOM GLITCH */
 IMAGE_FILES.forEach((url,i)=>{
-  const div=document.createElement('div');
-  div.className='image-container';
-  div.innerHTML=`<img src="${url}"><span class="number-badge">${i+1}</span>`;
-  div.onclick=()=>openLightbox(i);
-  gallery.appendChild(div);
+  const c=document.createElement('div');
+  c.className='image-container';
+
+  const img=document.createElement('img');
+  img.src=url;
+
+  const badge=document.createElement('span');
+  badge.className='number-badge';
+  badge.textContent=i+1;
+
+  c.append(img,badge);
+  c.onclick=()=>openLightbox(i);
+  gallery.appendChild(c);
+
+  const glitchLoop=()=>{
+    setTimeout(()=>{
+      img.style.animation='glitch .25s linear';
+      setTimeout(()=>img.style.animation='',250);
+      glitchLoop();
+    },Math.random()*5000+2500);
+  };
+  glitchLoop();
 });
 
 imageCount.textContent = `${IMAGE_FILES.length} Images`;
 
+/* LIGHTBOX LOGIC */
 function openLightbox(i){
   currentIndex=i;
   lightbox.classList.add('active');
-  updateImage();
-}
-function updateImage(){
-  lightboxMain.src=IMAGE_FILES[currentIndex];
-}
-function nextImage(){
-  currentIndex=(currentIndex+1)%IMAGE_FILES.length;
-  updateImage();
-}
-function prevImage(){
-  currentIndex=(currentIndex-1+IMAGE_FILES.length)%IMAGE_FILES.length;
-  updateImage();
-}
-function closeLightbox(){
-  lightbox.classList.remove('active');
+  updateLightbox();
+  triggerHaptic();
 }
 
+function updateLightbox(){
+  updateMainImage();
+  lightboxPreviews.innerHTML='';
+
+  IMAGE_FILES.forEach((url,i)=>{
+    const p=document.createElement('img');
+    p.src=url;
+    if(i===currentIndex)p.classList.add('active-preview');
+    p.onclick=()=>{currentIndex=i;updateMainImage();triggerHaptic();}
+    lightboxPreviews.appendChild(p);
+  });
+
+  centerActivePreview();
+  updateGlowIndicator();
+}
+
+function updateMainImage(){
+  lightboxMain.style.opacity=0;
+  setTimeout(()=>{
+    lightboxMain.src=IMAGE_FILES[currentIndex];
+    lightboxMain.style.opacity=1;
+    syncPreview();
+  },120);
+}
+
+function syncPreview(){
+  lightboxPreviews.querySelectorAll('img')
+    .forEach((img,i)=>img.classList.toggle('active-preview',i===currentIndex));
+  centerActivePreview();
+  updateGlowIndicator();
+}
+
+function centerActivePreview(){
+  const a=lightboxPreviews.querySelector('.active-preview');
+  if(!a)return;
+  lightboxPreviews.scrollTo({
+    left:a.offsetLeft-lightboxPreviews.offsetWidth/2+a.offsetWidth/2,
+    behavior:'smooth'
+  });
+}
+
+function updateGlowIndicator(){
+  const total = IMAGE_FILES.length;
+  const percent = total>1 ? currentIndex/(total-1) : 0;
+  const glowW = previewGlow.offsetWidth || 60;
+  previewGlow.style.left = `calc(${percent*100}% - ${glowW/2}px)`;
+}
+
+function nextImage(){currentIndex=(currentIndex+1)%IMAGE_FILES.length;updateMainImage();triggerHaptic();}
+function prevImage(){currentIndex=(currentIndex-1+IMAGE_FILES.length)%IMAGE_FILES.length;updateMainImage();triggerHaptic();}
+function closeLightbox(){lightbox.classList.remove('active');}
+
+/* CONTROLS */
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape')closeLightbox();
   if(e.key==='ArrowRight')nextImage();
   if(e.key==='ArrowLeft')prevImage();
 });
+
+let sx=0;
+lightboxMain.addEventListener('touchstart',e=>sx=e.changedTouches[0].screenX);
+lightboxMain.addEventListener('touchend',e=>{
+  const d=e.changedTouches[0].screenX-sx;
+  if(d>50)prevImage();
+  if(d<-50)nextImage();
+});
+
+function triggerHaptic(){
+  if(navigator.vibrate) navigator.vibrate(15);
+}
 </script>
 
 </body>
