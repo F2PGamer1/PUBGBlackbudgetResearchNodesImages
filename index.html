@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>PUBG Blackbudget Research Nodes Images</title>
 
-<!-- Import Audiowide font from Google Fonts -->
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
 
@@ -17,197 +16,116 @@ body {
   overflow-x: hidden;
 }
 
-/* Glitchy header */
 header {
   padding: 20px;
   font-size: 32px;
-  font-weight: 400;
   text-transform: uppercase;
   color: #00ffd5;
   text-align: center;
   position: relative;
-  overflow: hidden;
 }
 header::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(0,255,213,0.5), transparent);
-  animation: slideGlitch 2s infinite;
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,transparent,rgba(0,255,213,.5),transparent);
+  animation:slideGlitch 2s infinite;
 }
 @keyframes slideGlitch {
-  0% { left: -100%; }
-  50% { left: 100%; }
-  100% { left: -100%; }
+  0%{transform:translateX(-100%)}
+  50%{transform:translateX(100%)}
+  100%{transform:translateX(-100%)}
 }
 
-/* Gallery Grid */
 .grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 12px;
-  padding: 20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:12px;
+  padding:20px;
 }
+
 .image-container {
-  position: relative;
-  border-radius: 14px;
-  overflow: hidden;
-  cursor: pointer;
-  perspective: 1000px;
+  position:relative;
+  cursor:pointer;
 }
 .image-container img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 12px;
-  transition: transform 0.4s ease, filter 0.2s ease, opacity 0.3s ease;
-  will-change: transform, opacity;
-}
-.number-badge {
-  position: absolute;
-  top: 6px;
-  left: 6px;
-  background: rgba(0,255,213,0.85);
-  color: #000;
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 6px;
-  font-size: 12px;
-  user-select: none;
+  width:100%;
+  height:150px;
+  object-fit:cover;
+  border-radius:12px;
+  transition:.4s;
 }
 .image-container:hover img {
-  transform: scale(1.05) rotateZ(0.8deg);
-  filter: brightness(1.15) contrast(1.2);
+  transform:scale(1.05);
+  filter:brightness(1.2);
 }
 
-/* Lightbox */
-.lightbox {
-  position: fixed;
-  inset: 0;
-  background: rgba(5,8,12,0.95);
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-  padding: 15px;
+.number-badge {
+  position:absolute;
+  top:6px;
+  left:6px;
+  background:#00ffd5;
+  color:#000;
+  padding:2px 6px;
+  border-radius:6px;
+  font-size:12px;
 }
-.lightbox.active { display: flex; }
+
+.lightbox {
+  position:fixed;
+  inset:0;
+  background:rgba(5,8,12,.95);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+.lightbox.active {display:flex;}
 
 .lightbox-main-container {
-  position: relative;
-  max-width: 90vw;
-  max-height: 60vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position:relative;
+  max-width:90vw;
+  max-height:80vh;
 }
 .lightbox-main {
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 16px;
-  box-shadow: 0 30px 90px rgba(0,0,0,.8);
-  transition: transform 0.4s ease, opacity 0.3s ease;
-  will-change: transform, opacity;
+  max-width:100%;
+  max-height:100%;
+  border-radius:16px;
 }
 
-/* Fixed navigation buttons */
 .nav-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 36px;
-  color: #00ffd5;
-  cursor: pointer;
-  user-select: none;
-  background: rgba(0,0,0,0.25);
-  padding: 8px 12px;
-  border-radius: 8px;
-  transition: transform 0.3s ease, background 0.3s ease;
-  z-index: 10;
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:36px;
+  color:#00ffd5;
+  cursor:pointer;
+  user-select:none;
 }
-.nav-left { left: -50px; }
-.nav-right { right: -50px; }
-.nav-button:active {
-  transform: translateY(-50%) scale(0.85);
-  background: rgba(0,0,0,0.6);
-}
+.nav-left {left:-50px;}
+.nav-right {right:-50px;}
 
-/* Preview strip */
-.lightbox-previews {
-  display: flex;
-  gap: 8px;
-  max-width: calc(70px*5 + 8*4px);
-  justify-content: flex-start;
-  margin-top: 15px;
-  padding-bottom: 5px;
-  overflow: hidden; /* hides scrollbars */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE 10+ */
-  user-select: none;
-}
-.lightbox-previews::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
-}
-.lightbox-previews img {
-  flex: 0 0 auto;
-  width: 70px;
-  height: 50px;
-  object-fit: cover;
-  border-radius: 8px;
-  opacity: 0.6;
-  border: 2px solid transparent;
-  transition: transform 0.4s ease, opacity 0.4s ease, border 0.4s ease;
-  will-change: transform, opacity;
-  pointer-events: auto;
-}
-.lightbox-previews img.active-preview {
-  transform: scale(1.15);
-  opacity: 1;
-  border: 2px solid #00ffd5;
-}
-
-/* Close button */
 .close {
-  position: absolute;
-  top: 16px;
-  right: 20px;
-  font-size: 28px;
-  cursor: pointer;
-  color: #00ffd5;
-  user-select: none;
+  position:absolute;
+  top:20px;
+  right:25px;
+  font-size:28px;
+  cursor:pointer;
+  color:#00ffd5;
 }
 
-/* Subtle random glitch */
-@keyframes glitch {
-  0% { transform: translate(0,0) rotate(0deg); filter: brightness(1) contrast(1); }
-  20% { transform: translate(-1px,1px) rotate(-0.5deg); filter: brightness(1.2) contrast(1.2); }
-  40% { transform: translate(1px,-1px) rotate(0.5deg); filter: brightness(0.9) contrast(1.1); }
-  60% { transform: translate(-1px,1px) rotate(0deg); filter: brightness(1.1) contrast(1.1); }
-  80% { transform: translate(1px,-1px) rotate(-0.3deg); filter: brightness(1) contrast(1); }
-  100% { transform: translate(0,0) rotate(0deg); filter: brightness(1) contrast(1); }
-}
-
-/* Mobile adjustments */
-@media (max-width: 600px){
-  .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; padding: 15px; }
-  .image-container img { height: 120px; border-radius: 10px; }
-  .lightbox-main-container { max-height: 50vh; }
-  .lightbox-previews { max-width: calc(60px*5 + 8*4px); }
-  .lightbox-previews img { width: 60px; height: 45px; }
-  .nav-left { left: 10px; }
-  .nav-right { right: 10px; }
+@media(max-width:600px){
+  .nav-left{left:10px}
+  .nav-right{right:10px}
 }
 </style>
 </head>
+
 <body>
 
 <header>
-  <span class="header-text">PUBG Blackbudget Research Nodes -</span>
-  <span class="counter" id="imageCount"> 0 Images</span>
+  PUBG Blackbudget Research Nodes -
+  <span id="imageCount"></span>
 </header>
 
 <div class="grid" id="gallery"></div>
@@ -219,7 +137,6 @@ header::after {
     <img id="lightboxMain" class="lightbox-main">
     <span class="nav-button nav-right" onclick="nextImage()">❯</span>
   </div>
-  <div class="lightbox-previews" id="lightboxPreviews"></div>
 </div>
 
 <script src="ResearchImages.js"></script>
@@ -227,100 +144,46 @@ header::after {
 const gallery = document.getElementById('gallery');
 const lightbox = document.getElementById('lightbox');
 const lightboxMain = document.getElementById('lightboxMain');
-const lightboxPreviews = document.getElementById('lightboxPreviews');
 const imageCount = document.getElementById('imageCount');
 
 let currentIndex = 0;
 
-// Create gallery
-IMAGE_FILES.forEach((url, index) => {
-  const container = document.createElement('div');
-  container.classList.add('image-container');
-
-  const img = document.createElement('img');
-  img.src = url;
-
-  const badge = document.createElement('span');
-  badge.classList.add('number-badge');
-  badge.textContent = index + 1;
-
-  container.appendChild(img);
-  container.appendChild(badge);
-
-  container.addEventListener('click', () => openLightbox(index));
-
-  gallery.appendChild(container);
-
-  // Subtle random glitch
-  const glitchLoop = () => {
-    const delay = Math.random()*5000 + 2000;
-    setTimeout(() => {
-      img.style.animation = 'glitch 0.25s linear';
-      setTimeout(()=>{ img.style.animation = ''; glitchLoop(); }, 250);
-    }, delay);
-  }
-  glitchLoop();
+IMAGE_FILES.forEach((url,i)=>{
+  const div=document.createElement('div');
+  div.className='image-container';
+  div.innerHTML=`<img src="${url}"><span class="number-badge">${i+1}</span>`;
+  div.onclick=()=>openLightbox(i);
+  gallery.appendChild(div);
 });
 
-imageCount.textContent = `${IMAGE_FILES.length} Image${IMAGE_FILES.length !== 1 ? 's' : ''}`;
+imageCount.textContent = `${IMAGE_FILES.length} Images`;
 
-// Lightbox functions
-function openLightbox(index){
-  currentIndex = index;
+function openLightbox(i){
+  currentIndex=i;
   lightbox.classList.add('active');
-  updateLightbox();
-  triggerHaptic();
+  updateImage();
 }
-function updateLightbox(){
-  updateMainImage();
-  lightboxPreviews.innerHTML = '';
-  IMAGE_FILES.forEach((url,i)=>{
-    const preview = document.createElement('img');
-    preview.src = url;
-    if(i===currentIndex) preview.classList.add('active-preview');
-    preview.addEventListener('click', () => {
-      currentIndex=i; updateMainImage(); triggerHaptic();
-    });
-    lightboxPreviews.appendChild(preview);
-  });
-
-  // disable scroll & hide scrollbar
-  lightboxPreviews.style.overflowX = 'hidden';
+function updateImage(){
+  lightboxMain.src=IMAGE_FILES[currentIndex];
 }
-function updateMainImage(){
-  lightboxMain.style.opacity = 0;
-  setTimeout(()=>{ lightboxMain.src = IMAGE_FILES[currentIndex]; lightboxMain.style.opacity = 1; }, 150);
-  updatePreviewsHighlight();
+function nextImage(){
+  currentIndex=(currentIndex+1)%IMAGE_FILES.length;
+  updateImage();
 }
-function updatePreviewsHighlight(){
-  lightboxPreviews.querySelectorAll('img').forEach((img,i)=>img.classList.toggle('active-preview',i===currentIndex));
+function prevImage(){
+  currentIndex=(currentIndex-1+IMAGE_FILES.length)%IMAGE_FILES.length;
+  updateImage();
 }
-function nextImage(){ currentIndex=(currentIndex+1)%IMAGE_FILES.length; updateMainImage(); triggerHaptic();}
-function prevImage(){ currentIndex=(currentIndex-1+IMAGE_FILES.length)%IMAGE_FILES.length; updateMainImage(); triggerHaptic();}
-function closeLightbox(){ 
+function closeLightbox(){
   lightbox.classList.remove('active');
 }
 
-lightbox.addEventListener('click',(e)=>{ if(e.target===lightbox) closeLightbox(); });
-document.addEventListener('keydown',(e)=>{
-  if(e.key==='Escape') closeLightbox();
-  if(e.key==='ArrowRight') nextImage();
-  if(e.key==='ArrowLeft') prevImage();
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closeLightbox();
+  if(e.key==='ArrowRight')nextImage();
+  if(e.key==='ArrowLeft')prevImage();
 });
-
-// Mobile swipe
-let touchStartX = 0;
-lightboxMain.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
-lightboxMain.addEventListener('touchend', e => {
-  const diff = e.changedTouches[0].screenX - touchStartX;
-  if(diff > 50) prevImage();
-  if(diff < -50) nextImage();
-});
-
-// Haptic feedback
-function triggerHaptic(){ if(navigator.vibrate) navigator.vibrate(20); }
 </script>
 
 </body>
 </html>
-
